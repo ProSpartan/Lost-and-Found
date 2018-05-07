@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -42,6 +43,9 @@ public class CameraFragment extends Fragment{
     private Button savePhotoButton;
     private Button cancelPhotoButton;
 
+    private EditText title;
+    private EditText description;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,8 @@ public class CameraFragment extends Fragment{
         takePhotoButton = view.findViewById(R.id.camera_button_take_photo);
         savePhotoButton = view.findViewById(R.id.camera_button_save_photo);
         cancelPhotoButton = view.findViewById(R.id.camera_button_cancel_photo);
+        title = view.findViewById(R.id.camera_edittext_title);
+        description = view.findViewById(R.id.camera_edittext_description);
 
         takePhotoButton.setOnClickListener(photoTakeOnClickListener);
         savePhotoButton.setOnClickListener(photoSaveOnClickListener);
@@ -80,6 +86,8 @@ public class CameraFragment extends Fragment{
                     imageView.setImageBitmap(bitmap);
                     savePhotoButton.setEnabled(true);
                     cancelPhotoButton.setEnabled(true);
+                    title.setVisibility(View.VISIBLE);
+                    description.setVisibility(View.VISIBLE);
                 }
                 break;
         }
@@ -122,9 +130,12 @@ public class CameraFragment extends Fragment{
             final byte[] bytes = stream.toByteArray();
             final String byteString = byteArrayToStringOfBytes(bytes);
 
-            final ImageEntity imageEntity = new ImageEntity(blah++,"descp", "blah", byteString);
+            final ImageEntity imageEntity = new ImageEntity(blah++, title.getText().toString(), description.getText().toString(), byteString);
             final Context context = v.getContext().getApplicationContext();
             final AppDatabase appDatabase = AppDatabase.getINSTANCE(context);
+
+            resetComponents();
+            TOAST_LOG.toastMessage(context, "Saving image.", Toast.LENGTH_LONG);
 
             AsyncTask.execute(new Runnable() {
                 @Override
@@ -138,7 +149,9 @@ public class CameraFragment extends Fragment{
     private Button.OnClickListener photoCancelOnClickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            imageView.setImageBitmap(null);
+            final Context context = v.getContext().getApplicationContext();
+            TOAST_LOG.toastMessage(context, "Canceling image.", Toast.LENGTH_LONG);
+            resetComponents();
         }
     };
 
@@ -171,5 +184,15 @@ public class CameraFragment extends Fragment{
         sb.append("]");
 
         return sb.toString();
+    }
+
+    private void resetComponents() {
+        savePhotoButton.setEnabled(false);
+        cancelPhotoButton.setEnabled(false);
+        title.setText("");
+        description.setText("");
+        title.setVisibility(View.INVISIBLE);
+        description.setVisibility(View.INVISIBLE);
+        imageView.setImageResource(android.R.color.transparent);
     }
 }
