@@ -17,17 +17,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/locate_exp_list_item_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:paddingEnd="?android:attr/expandableListPreferredChildIndicatorRight"
-        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="5dp"
-        android:textSize="17sp"
-        app:layout_constraintLeft_toRightOf="@id/locate_exp_list_item_image" />
-
-    <TextView
         android:id="@+id/locate_exp_list_item_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +25,20 @@
         android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="5dp"
         android:textSize="17sp"
+        android:textColor="#000000"
+        app:layout_constraintLeft_toRightOf="@id/locate_exp_list_item_image" />
+
+    <TextView
+        android:id="@+id/locate_exp_list_item_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingEnd="?android:attr/expandableListPreferredChildIndicatorRight"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="5dp"
+        android:textSize="12sp"
+        android:textColor="#000000"
         app:layout_constraintLeft_toRightOf="@id/locate_exp_list_item_image"
-        app:layout_constraintTop_toBottomOf="@id/locate_exp_list_item_location" />
+        app:layout_constraintTop_toBottomOf="@id/locate_exp_list_item_description" />
 
 </android.support.constraint.ConstraintLayout>
